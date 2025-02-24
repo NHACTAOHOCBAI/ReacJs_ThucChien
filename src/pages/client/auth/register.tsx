@@ -1,16 +1,30 @@
-import { Button, Divider, Form, FormProps, Input } from "antd";
+import { registerAPI } from "@/services/api";
+import { App, Button, Divider, Form, FormProps, Input } from "antd";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 
 const RegisterPage = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+    const { message } = App.useApp();
     type FieldType = {
         fullName: string;
         password: string;
         email: string;
         phone: string;
     };
-    const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log(values);
+    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+        setIsLoading(true);
+        const resRegister = await registerAPI(values.fullName, values.email, values.password, values.phone);
+        if (resRegister && resRegister.data) {
+            navigate("/login");
+            message.success("register an account successfully");
+        }
+        else
+            message.error(resRegister.message);
+        setIsLoading(false);
     };
     console.log(import.meta.env.VITE_BACKEND_URL)
     return (
@@ -84,7 +98,11 @@ const RegisterPage = () => {
                             <Input />
                         </Form.Item>
                         <Form.Item label={null}>
-                            <Button type="primary" htmlType="submit">
+                            <Button
+                                loading={isLoading}
+                                type="primary"
+                                htmlType="submit"
+                            >
                                 Register
                             </Button>
                         </Form.Item>
