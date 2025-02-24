@@ -12,6 +12,7 @@ const RegisterPage = () => {
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         console.log(values);
     };
+    console.log(import.meta.env.VITE_BACKEND_URL)
     return (
         <div style={{
             width: "100vw",
