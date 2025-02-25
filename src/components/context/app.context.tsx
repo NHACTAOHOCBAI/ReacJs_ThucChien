@@ -4,7 +4,9 @@ interface IUserContext {
     isAuth: boolean,
     setIsAuth: (values: boolean) => void,
     user: IUser | null,
-    setUser: (values: IUser | null) => void
+    setUser: (values: IUser | null) => void,
+    isLoading: boolean,
+    setIsLoading: (values: boolean) => void,
 }
 interface IProps {
     children: React.ReactNode
@@ -13,9 +15,10 @@ const UserContext = createContext<IUserContext | null>(null);
 const CurrentUserContext = ({ children }: IProps) => {
     const [isAuth, setIsAuth] = useState<boolean>(false);
     const [user, setUser] = useState<IUser | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     return (
         <UserContext.Provider value={{
-            isAuth, setIsAuth, user, setUser
+            isAuth, setIsAuth, user, setUser, isLoading, setIsLoading
         }}>
             {children}
         </UserContext.Provider>
