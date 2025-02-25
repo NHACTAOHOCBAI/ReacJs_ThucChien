@@ -15,7 +15,7 @@ const UserContext = createContext<IUserContext | null>(null);
 const CurrentUserContext = ({ children }: IProps) => {
     const [isAuth, setIsAuth] = useState<boolean>(false);
     const [user, setUser] = useState<IUser | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     return (
         <UserContext.Provider value={{
             isAuth, setIsAuth, user, setUser, isLoading, setIsLoading
