@@ -15,6 +15,11 @@ import HomePage from "pages/client/home";
 import { App } from "antd";
 import { CurrentUserContext } from "components/context/app.context";
 import ProtectedRoute from "components/protectedPage/auth";
+import AdminLayout from "components/layout/admin.layout";
+import DashboardPage from "pages/admin/dashboard";
+import ManageBookPage from "pages/admin/manage.book";
+import ManageOrderPage from "pages/admin/manage.order";
+import ManageUserPage from "pages/admin/manage.user";
 
 const router = createBrowserRouter([
   {
@@ -39,13 +44,31 @@ const router = createBrowserRouter([
           <div>checkout </div>
         </ProtectedRoute>
       },
-      {
-        path: "/admin",
-        element: <ProtectedRoute>
-          <div>admin </div>
-        </ProtectedRoute>,
-      }
     ],
+  },
+  {
+    path: "/admin",
+    element: <ProtectedRoute>
+      <AdminLayout />
+    </ProtectedRoute>,
+    children: [
+      {
+        index: true,
+        element: <DashboardPage />
+      },
+      {
+        path: "book",
+        element: <ManageBookPage />
+      },
+      {
+        path: "order",
+        element: <ManageOrderPage />
+      },
+      {
+        path: "user",
+        element: <ManageUserPage />
+      }
+    ]
   },
   {
     path: "/login",

@@ -1,6 +1,6 @@
 import { Button, Result } from "antd";
 import { useCurrentUser } from "components/context/app.context"
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface IProps {
     children: React.ReactNode
@@ -14,7 +14,9 @@ const ProtectedRoute = ({ children }: IProps) => {
                 status="403"
                 title="403"
                 subTitle="Sorry, you need to login to access this page."
-                extra={<Button type="primary">Back Home</Button>}
+                extra={<Button type="primary">
+                    <Link to='/login'> Go to login</Link>
+                </Button>}
             />
         )
     const isAdminRoute = location.pathname.includes("admin");
@@ -24,7 +26,9 @@ const ProtectedRoute = ({ children }: IProps) => {
                 status="403"
                 title="403"
                 subTitle="Sorry, you are not authorized to access this page."
-                extra={<Button type="primary">Back Home</Button>}
+                extra={<Button type="primary">
+                    <Link to='/'> Back home</Link>
+                </Button>}
             />)
     return (
         <>
