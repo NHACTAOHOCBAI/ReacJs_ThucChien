@@ -19,15 +19,15 @@ const CurrentUserContext = ({ children }: IProps) => {
     const [isAuth, setIsAuth] = useState<boolean>(false);
     const [user, setUser] = useState<IUser | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    useEffect(() => {
-        const fetchAccount = async () => {
-            const resFetch = await fetchAccountAPI();
-            if (resFetch && resFetch.data) {
-                setUser(resFetch.data.user);
-                setIsAuth(true);
-            }
-            setIsLoading(false);
+    const fetchAccount = async () => {
+        const resFetch = await fetchAccountAPI();
+        if (resFetch && resFetch.data) {
+            setUser(resFetch.data.user);
+            setIsAuth(true);
         }
+        setIsLoading(false);
+    }
+    useEffect(() => {
         fetchAccount();
     }, [])
     return (

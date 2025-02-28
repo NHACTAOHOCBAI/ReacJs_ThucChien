@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+    BilibiliOutlined,
     FileWordOutlined,
     PieChartOutlined,
     ShoppingOutlined,
@@ -30,8 +31,7 @@ function getItem(
 const items: MenuItem[] = [
     getItem(<Link to='/admin'>Dashboard</Link>, 'dashboard', <PieChartOutlined />),
     getItem('Manage Users', 'manageUsers', <TeamOutlined />, [
-        getItem('Admins', 'admins'),
-        getItem('Users', 'users'),
+        getItem(<Link to='/admin/user'>CRUD</Link>, 'CRUD'),
     ]),
     getItem(<Link to='/admin/book'>Manage Books</Link>, 'manageBooks', <FileWordOutlined />),
 
@@ -45,10 +45,25 @@ const AdminLayout = () => {
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-                <div className="demo-logo-vertical" />
+                <div style={{
+                    color: "#d63031",
+                    paddingTop: 5,
+                    display: "flex",
+                    justifyContent: "center",
+                    margin: 10
+                }}>
+                    <BilibiliOutlined style={{
+                        fontSize: 20,
+                    }} />
+                    <span style={{
+                        fontWeight: "bold",
+                        fontSize: 17
+                    }}> Cuhp </span></div>
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
             </Sider>
-            <Layout>
+            <Layout style={{
+                padding: 10
+            }}>
 
                 <div style={{
                     display: "flex",
@@ -75,8 +90,16 @@ const AdminLayout = () => {
                     margin: 0
                 }} />
                 <Outlet />
-                <Footer style={{ textAlign: 'center' }}>
-                    Hi My name is Phuc. I am majoring in software engineering
+                <Footer style={{
+                    display: "flex",
+                    padding: 0,
+                    justifyContent: "center"
+                }}>
+                    <div style={{
+                        textAlign: 'center',
+                        position: "fixed",
+                        bottom: 0
+                    }}>Hi My name is Phuc. I am majoring in software engineering</div>
                 </Footer>
             </Layout>
         </Layout >

@@ -12,7 +12,7 @@ import AboutPage from 'pages/client/about';
 import LoginPage from 'pages/client/auth/login';
 import RegisterPage from 'pages/client/auth/register';
 import HomePage from "pages/client/home";
-import { App } from "antd";
+import { App, ConfigProvider } from "antd";
 import { CurrentUserContext } from "components/context/app.context";
 import ProtectedRoute from "components/protectedPage/auth";
 import AdminLayout from "components/layout/admin.layout";
@@ -20,7 +20,7 @@ import DashboardPage from "pages/admin/dashboard";
 import ManageBookPage from "pages/admin/manage.book";
 import ManageOrderPage from "pages/admin/manage.order";
 import ManageUserPage from "pages/admin/manage.user";
-
+import enUS from 'antd/locale/en_US';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -79,12 +79,13 @@ const router = createBrowserRouter([
     element: <RegisterPage />,
   },
 ]);
-
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <CurrentUserContext>
       <App>
-        <RouterProvider router={router} />
+        <ConfigProvider locale={enUS}>
+          <RouterProvider router={router} />
+        </ConfigProvider>
       </App>
     </CurrentUserContext>
   </StrictMode>,
