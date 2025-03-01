@@ -1,5 +1,5 @@
 import { FORMATE_DATE_VN } from "@/services/helper"
-import { Badge, Descriptions, DescriptionsProps, Drawer } from "antd"
+import { Avatar, Badge, Descriptions, DescriptionsProps, Drawer } from "antd"
 import dayjs from "dayjs"
 interface IProps {
     userDetail: IUserTable | undefined
@@ -8,6 +8,7 @@ interface IProps {
 }
 const UserDetail = (props: IProps) => {
     const { userDetail, openDetail, setOpenDetail } = props;
+    const urlAvatar = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${userDetail?.avatar}`;
     const items: DescriptionsProps['items'] = [
         {
             key: '_id',
@@ -34,8 +35,14 @@ const UserDetail = (props: IProps) => {
         {
             key: 'role',
             label: 'Role',
-            span: 3,
+            span: 2,
             children: <Badge status="processing" text={`${userDetail?.role}`} />,
+        },
+        {
+            key: 'role',
+            label: 'Role',
+            span: 1,
+            children: <Avatar src={urlAvatar} />
         },
         {
             key: 'createdAt',
