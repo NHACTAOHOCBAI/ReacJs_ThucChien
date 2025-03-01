@@ -6,6 +6,14 @@ import { Button } from 'antd';
 import { useRef, useState } from 'react';
 
 import { getUsersWithPaginateAPI } from '@/services/api';
+import { dateRangeValidate } from '@/services/helper';
+
+type TSearch = {
+    fullName: string,
+    email: string,
+    createdAt: string,
+    createdAtRange: string
+}
 
 const columns: ProColumns<IUserTable>[] = [
     {
@@ -34,7 +42,15 @@ const columns: ProColumns<IUserTable>[] = [
     {
         title: 'Created at',
         dataIndex: 'createdAt',
-
+        sorter: true,
+        hideInSearch: true,
+        valueType: 'date',
+    },
+    {
+        title: 'Created at',
+        dataIndex: 'createdAtRange',
+        hideInTable: true,
+        valueType: 'dateRange',
     },
     {
         title: 'Action',
@@ -65,20 +81,29 @@ const TableUser = () => {
     })
     return (
         <>
-            <ProTable<IUserTable>
+            <ProTable<IUserTable, TSearch>
                 columns={columns}
                 actionRef={actionRef}
                 cardBordered
                 request={async (params, sort, filter) => {
-                    const res = await getUsersWithPaginateAPI(params?.current ?? 1, params?.pageSize ?? 1);
+                    console.log(sort, filter);
+                    let query = "";
+                    if (params)
+                        query += `current=${params.current}&pageSize=${params.pageSize}`;
+                    if (params.fullName)
+                        query += `&fullName=/${params.fullName}/i`;
+                    if (params.email)
+                        query += `&email=/${params.email}/i`;
+                    if (params.createdAtRange) {
+                        const createDateRange = dateRangeValidate(params.createdAtRange) || [];
+                        query += `&createAt>=${createDateRange[0]}&createAt<=${createDateRange[1]}}`;
+                    }
+                    const res = await getUsersWithPaginateAPI(query);
                     if (res.data) {
                         setMeta(res.data.meta);
                     }
                     return {
                         data: res.data?.result,
-                        page: 1,
-                        success: true,
-                        total: res.data?.meta.total,
                     }
 
                 }}
