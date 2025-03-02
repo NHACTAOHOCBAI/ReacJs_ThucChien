@@ -67,5 +67,14 @@ declare global {
         updatedAt: Date
         __v: number
     }
+    interface IResponseImport {
+        countSuccess: number
+        countError: number
+        detail: any
+    }
+    interface IDelete {
+        acknowledged: boolean,
+        deletedCount: number
+    }
 }
 
