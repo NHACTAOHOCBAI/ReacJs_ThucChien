@@ -122,7 +122,6 @@ const TableUser = () => {
     ];
     return (
         <>
-            <CSVLink data={userData as string | IUserTable[]}></CSVLink>9
             <NewUser
                 openNew={openNew}
                 setOpenNew={setOpenNew}
@@ -201,18 +200,17 @@ const TableUser = () => {
                         >
                             Import
                         </Button>
-                        <CSVLink data={userData as string | IUserTable[]}></CSVLink>
-                        <Button
-                            key="ExportBtn"
-                            icon={<CloudDownloadOutlined />}
-                            type="primary"
-                        >
-                            <CSVLink
-                                data={userData}
-                                filename='export-user.csv'>
+                        <CSVLink
+                            data={userData}
+                            filename='export-user.csv'>
+                            <Button
+                                key="ExportBtn"
+                                icon={<CloudDownloadOutlined />}
+                                type="primary"
+                            >
                                 Export
-                            </CSVLink>
-                        </Button>
+                            </Button>
+                        </CSVLink>
                     </div>
 
                 ]}

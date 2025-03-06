@@ -1,11 +1,12 @@
 import { deleteBookAPI, getBooksWithPaginateAPI } from "@/services/api";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { CloudDownloadOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { App, Button, Popconfirm } from "antd";
 import { useRef, useState } from "react";
 import BookDetail from "./book.detail";
 import NewBook from "./new.book";
 import UpdateBook from "./update.book";
+import { CSVLink } from "react-csv";
 
 const BookTable = () => {
     const { message } = App.useApp();
@@ -14,6 +15,7 @@ const BookTable = () => {
     const [openNew, setOpenNew] = useState<boolean>(false);
     const [openUpdate, setOpenUpdate] = useState<boolean>(false);
     const [updatedBook, setUpdatedBook] = useState<IBookTable>();
+    const [bookData, setBookData] = useState<IBookTable[]>([])
     const handleBtnNew = () => {
         setOpenNew(true);
     }
@@ -150,6 +152,7 @@ const BookTable = () => {
                     const res = await getBooksWithPaginateAPI(url);
                     if (res && res.data) {
                         setMeta(res.data.meta)
+                        setBookData(res.data.result);
                     }
                     return {
                         data: res.data?.result
@@ -164,14 +167,31 @@ const BookTable = () => {
                 }}
                 headerTitle="Book Table"
                 toolBarRender={() => [
-                    <Button
-                        key="button"
-                        icon={<PlusOutlined />}
-                        onClick={handleBtnNew}
-                        type="primary"
-                    >
-                        New Book
-                    </Button>
+                    <div style={{
+                        display: "flex",
+                        gap: 10,
+                        flexDirection: "row-reverse"
+                    }}>
+                        <Button
+                            key="button"
+                            icon={<PlusOutlined />}
+                            onClick={handleBtnNew}
+                            type="primary"
+                        >
+                            New Book
+                        </Button>
+                        <CSVLink
+                            data={bookData}
+                            filename='export-book.csv'>
+                            <Button
+                                key="ExportBtn"
+                                icon={<CloudDownloadOutlined />}
+                                type="primary"
+                            >
+                                Export
+                            </Button>
+                        </CSVLink>
+                    </div>
                 ]}
             />
         </>
