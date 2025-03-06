@@ -5,14 +5,21 @@ import { App, Button, Popconfirm } from "antd";
 import { useRef, useState } from "react";
 import BookDetail from "./book.detail";
 import NewBook from "./new.book";
+import UpdateBook from "./update.book";
 
 const BookTable = () => {
     const { message } = App.useApp();
     const [openDetail, setOpenDetail] = useState<boolean>(false);
     const [bookDetail, setBookDetail] = useState<IBookTable>();
     const [openNew, setOpenNew] = useState<boolean>(false);
+    const [openUpdate, setOpenUpdate] = useState<boolean>(false);
+    const [updatedBook, setUpdatedBook] = useState<IBookTable>();
     const handleBtnNew = () => {
         setOpenNew(true);
+    }
+    const handleBtnUpdate = (book: IBookTable) => {
+        setUpdatedBook(book);
+        setOpenUpdate(true);
     }
     const reloadTable = async () => {
         actionRef.current?.reload();
@@ -84,7 +91,9 @@ const BookTable = () => {
                     <EditOutlined
                         style={{
                             color: "#ee5253"
-                        }} />
+                        }}
+                        onClick={() => handleBtnUpdate(record)}
+                    />
                     <Popconfirm
                         title="Delete the book"
                         description="Are you sure to delete this book?"
@@ -106,6 +115,13 @@ const BookTable = () => {
             <NewBook
                 setOpenNew={setOpenNew}
                 openNew={openNew}
+                reloadTable={reloadTable}
+            />
+            <UpdateBook
+                setOpenUpdate={setOpenUpdate}
+                openUpdate={openUpdate}
+                setUpdatedBook={setUpdatedBook}
+                updatedBook={updatedBook}
                 reloadTable={reloadTable}
             />
             <BookDetail
