@@ -56,7 +56,7 @@ const RegisterPage = () => {
                             layout="vertical"
                             name="basic"
                             initialValues={{ remember: true }}
-                            onFinish={onFinish}
+                            onFinish={(record) => onFinish(record)}
                             autoComplete="off"
                         >
                             <Form.Item<FieldType>
